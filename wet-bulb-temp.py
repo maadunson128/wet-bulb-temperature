@@ -1,5 +1,6 @@
-# importing library 
+# importing libraries
 import requests
+import math
 
 # Defining function to fetch the data using API
 def fetch_data(city):
@@ -17,11 +18,11 @@ def fetch_data(city):
 
     }
     # Getting response using GET HTTP method
-    response = requests.get(base_url, params=params)
+    response = requests.get(base_url, params)
 
     # check for request code 200 (it means request was successful)
     if response.status_code == 200:
-        # converting the response into Json format
+        # storimg the response (Json format )
         data = response.json()
 
         # storing the required details
@@ -36,6 +37,20 @@ def fetch_data(city):
         print(f"Wind speed: {wind_speed}m/s")
         print(f"Temperature: {temperature}°C")
         print(f"Relative humidity: {humidity} %")
+    return temperature, humidity
+# fetching the data for chennai
+temperature, humidity = fetch_data('chennai')
 
-# fetching the data for salem
-fetch_data('taramangalam')
+# defining function to calculate wet bulb temperature
+def wet_bulb_temperature(temp, humidity):
+    # formula for calculating wet bulb temperature
+    wet_temperature = temp * math.atan(0.151977 * math.sqrt(humidity + 8.313659)) + \
+                        math.atan(temp + humidity) - math.atan(humidity - 1.676331) + \
+                        0.00391838 * ((humidity) ** (3/2)) * math.atan(0.023101 * humidity) - \
+                        4.686035
+    
+    return wet_temperature
+
+wet_temperature = wet_bulb_temperature(temperature, humidity)
+
+print(f"Wet bulb temperature: {round(wet_temperature, 2)}°C")
