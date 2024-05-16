@@ -52,8 +52,8 @@ def wet_bulb_temperature(temp, humidity):
     return wet_temperature
 
 
-# Wet bulb temperature calculator
-st.title("Wet Bulb Temperature calculator")
+#Live Wet bulb temperature
+st.title("Live Wet Bulb Temperature")
 # Enter the city name in the website provided by streamlit
 city = st.text_input("Enter the city name:", 'NEW DELHI, IN')
 
