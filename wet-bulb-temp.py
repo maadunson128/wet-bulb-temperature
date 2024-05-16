@@ -1,6 +1,7 @@
 # importing libraries
 import requests
 import math
+import streamlit as st
 
 # Defining function to fetch the data using API
 def fetch_data(city):
@@ -31,15 +32,14 @@ def fetch_data(city):
         temperature = data['main']['temp']
         humidity = data['main']['humidity']
 
-        # Printing the details
-        print(f"City: {city}")
-        print(f"Weather description: {weather_description}")
-        print(f"Wind speed: {wind_speed}m/s")
-        print(f"Temperature: {temperature}°C")
-        print(f"Relative humidity: {humidity} %")
+        # # Printing the details
+        # print(f"City: {city}")
+        # print(f"Weather description: {weather_description}")
+        # print(f"Wind speed: {wind_speed}m/s")
+        # print(f"Temperature: {temperature}°C")
+        # print(f"Relative humidity: {humidity} %")
     return temperature, humidity
-# fetching the data for chennai
-temperature, humidity = fetch_data('chennai')
+
 
 # defining function to calculate wet bulb temperature
 def wet_bulb_temperature(temp, humidity):
@@ -51,6 +51,18 @@ def wet_bulb_temperature(temp, humidity):
     
     return wet_temperature
 
-wet_temperature = wet_bulb_temperature(temperature, humidity)
+# Enter the city name in the website provided by streamlit
+city = st.text_input("Enter the city name:", 'NEW DELHI, IN')
 
-print(f"Wet bulb temperature: {round(wet_temperature, 2)}°C")
+# If city is entered , then temperature, humiidty, wet temperature are displayed.
+if city:
+    temperature, humidity = fetch_data(city)
+
+    if temperature is not None and humidity is not None:
+        wet_temperature = wet_bulb_temperature(temperature, humidity)
+
+        st.write(f"City: {city}")
+        st.write(f"Temperature: {temperature}°C")
+        st.write(f"Relative humidity: {humidity}%")
+        st.write(f"Wet bulb temperature: {wet_temperature:.2f}°C")
+
