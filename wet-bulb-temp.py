@@ -64,7 +64,7 @@ if city:
     if temperature is not None and humidity is not None:
         wet_temperature = wet_bulb_temperature(temperature, humidity)
 
-        st.write(f"**Weather in: {city}**")
+        st.write(f"**Weather in {city}**")
         st.write(f"- Temperature: {temperature}°C")
         st.write(f"- Relative humidity: {humidity}%")
         st.write(f"- Wet bulb temperature: {wet_temperature:.2f}°C")
@@ -79,3 +79,22 @@ if city:
         else:
             st.markdown("<span style='color:green;'>Wet-bulb temperatures are within safe limits. Enjoy the weather and drink enough water to be hydrated.</span>", unsafe_allow_html=True)
 
+
+# Wet-bulb temperature calculator
+st.title("Wet bulb temperature calculator")
+temperature_input = st.number_input("Temperature(°C): ")
+humidity_input = st.number_input("Relative Humidity(%) :")
+if temperature_input and humidity_input:
+      
+    calculated_wet_temperature = wet_bulb_temperature(temperature_input, humidity_input)
+    st.write(f"Wet bulb temperature: {calculated_wet_temperature:.2f}°C")
+
+
+    if calculated_wet_temperature > 35:
+            st.warning("⚠️ Wet-bulb temperatures above 35°C (95°F) pose a fatal danger to humans outside. It's extremely dangerous. Avoid direct sunlight and drink lots of water.")
+    elif calculated_wet_temperature > 32:
+            st.warning("⚠️ Wet-bulb temperatures above 32°C (89.6°F) are critically dangerous. Avoid direct sunlight and drink lots of water.")
+    elif calculated_wet_temperature > 30:
+            st.warning("⚠️ Wet-bulb temperatures above 30°C (86°F) pose potential fatal danger to humans outside. It's very uncomfortable. Avoid direct sunlight and drink lots of water.")
+    else:
+            st.markdown("<span style='color:green;'>Wet-bulb temperatures are within safe limits. Enjoy the weather and drink enough water to be hydrated.</span>", unsafe_allow_html=True)
